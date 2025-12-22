@@ -62,14 +62,13 @@ app.use(async (req, res, next) => {
 app.use("/api/products", productRoutes);
 
 if (process.env.NODE_ENV === "production") {
-  // server our react app
   app.use(express.static(path.join(__dirname, "/frontend/dist")));
 
-  app.get("*", (req, res) => {
+  // Fix: Name the wildcard (e.g., "*path" or "*splat")
+  app.get("/*path", (req, res) => {
     res.sendFile(path.resolve(__dirname, "frontend", "dist", "index.html"));
   });
 }
-
 async function initDB() {
   try {
     await sql`
