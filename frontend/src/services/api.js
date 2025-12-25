@@ -18,7 +18,7 @@ export default API; */
 import axios from "axios";
 
 const API = axios.create({
-  baseURL: "http://localhost:3000/api",
+  baseURL: "https://e-commerce-clone-vj0j.onrender.com/api",
 });
 
 // This automatically attaches the token to EVERY request you make via 'API'
