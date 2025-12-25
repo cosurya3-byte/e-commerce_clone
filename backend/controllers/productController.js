@@ -1,17 +1,22 @@
 import { sql } from "../config/db.js";
 
 export const getProducts = async (req, res) => {
+  const { search } = req.query; // Get ?search=P from URL
   try {
-    const products = await sql`
-      SELECT * FROM products
-      ORDER BY created_at DESC
-    `;
-
-    console.log("fetched products", products);
+    let products;
+    if (search) {
+      // Use % wildcards for "fuzzy" matching
+      products = await sql`
+        SELECT * FROM products 
+        WHERE name ILIKE ${"%" + search + "%"} 
+        ORDER BY created_at DESC
+      `;
+    } else {
+      products = await sql`SELECT * FROM products ORDER BY created_at DESC`;
+    }
     res.status(200).json({ success: true, data: products });
   } catch (error) {
-    console.log("Error in getProducts function", error);
-    res.status(500).json({ success: false, message: "Internal Server Error" });
+    res.status(500).json({ success: false, message: "Server Error" });
   }
 };
 
@@ -119,7 +124,7 @@ export const deleteProduct = async (req, res) => {
   }
 };
 
-export const searchProducts = async (req, res) => {
+/* export const searchProducts = async (req, res) => {
   const { query } = req.query; // This gets the text from the URL (e.g., ?query=phone)
   try {
     // This SQL query looks for matches in the name or category
@@ -132,4 +137,4 @@ export const searchProducts = async (req, res) => {
   } catch (error) {
     res.status(500).json({ success: false, message: "Search failed" });
   }
-};
+}; */

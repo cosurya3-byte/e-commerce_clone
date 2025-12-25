@@ -2,6 +2,7 @@ import { create } from "zustand";
 import axios from "axios";
 import toast from "react-hot-toast";
 import API from "../services/api";
+import { Search } from "lucide-react";
 
 // base url will be dynamic depending on the environment
 const BASE_URL =
@@ -124,13 +125,24 @@ export const useProductStore = create((set, get) => ({
 
   searchProducts: async (query) => {
     try {
-      const res = await API.get(`/products/search?query=${query}`);
+      const res = await API.get(`/products/search?query=${Search}`);
       // Double-check if your data is in res.data or res.data.data
       const results = res.data.data || [];
       set({ products: results }); // Ensure 'results' is always an array
     } catch (error) {
       console.error("Search error", error);
       set({ products: [] }); // Set to empty array on error to prevent map crash
+    }
+  },
+
+  fetchProducts: async (searchTerm = "") => {
+    set({ loading: true });
+    try {
+      // This sends: https://your-site.com/api/products?search=P
+      const res = await API.get(`/products?search=${searchTerm}`);
+      set({ products: res.data.data, loading: false });
+    } catch (error) {
+      set({ error: "Error fetching products", loading: false });
     }
   },
 }));

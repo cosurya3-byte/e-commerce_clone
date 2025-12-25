@@ -23,7 +23,7 @@ function Navbar() {
   const handleSearch = (e) => {
     const value = e.target.value;
     setSearchTerm(value);
-    searchProducts(value); // This will filter your products list in real-time
+    fetchProducts(value); // Trigger the API call with the letter 'P'
   };
 
   return (
