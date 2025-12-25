@@ -80,7 +80,7 @@ export const updateProduct = async (req, res) => {
       RETURNING *
     `;
 
-    if (updateProduct.length === 0) {
+    if (!updateProduct || updateProduct.length === 0) {
       return res.status(404).json({
         success: false,
         message: "Product not found",

@@ -60,7 +60,7 @@ export const useProductStore = create((set, get) => ({
   fetchProducts: async () => {
     set({ loading: true });
     try {
-      const response = await API.get(`${BASE_URL}/api/products`);
+      const response = await API.get(`${BASE_URL}/products`);
       set({ products: response.data.data, error: null });
     } catch (err) {
       if (err.status == 429)
@@ -91,7 +91,7 @@ export const useProductStore = create((set, get) => ({
   fetchProduct: async (id) => {
     set({ loading: true });
     try {
-      const response = await API.get(`${BASE_URL}/api/products/${id}`);
+      const response = await API.get(`${BASE_URL}/products/${id}`);
       set({
         currentProduct: response.data.data,
         formData: response.data.data, // pre-fill form with current product data
