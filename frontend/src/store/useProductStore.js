@@ -122,13 +122,15 @@ export const useProductStore = create((set, get) => ({
     }
   },
 
-  searchProducts: async (searchTerm) => {
-    set({ loading: true });
+  searchProducts: async (query) => {
     try {
-      const res = await API.get(`/products/search?query=${searchTerm}`); // Uses your API instance
-      set({ products: res.data.data, loading: false });
+      const res = await API.get(`/products/search?query=${query}`);
+      // Double-check if your data is in res.data or res.data.data
+      const results = res.data.data || [];
+      set({ products: results }); // Ensure 'results' is always an array
     } catch (error) {
-      set({ error: "Search failed", loading: false });
+      console.error("Search error", error);
+      set({ products: [] }); // Set to empty array on error to prevent map crash
     }
   },
 }));
