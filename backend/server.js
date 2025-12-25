@@ -17,7 +17,21 @@ const PORT = process.env.PORT || 3000;
 const __dirname = path.resolve();
 
 app.use(express.json());
-app.use(cors());
+
+// Replace your existing app.use(cors()) with this:
+const corsOptions = {
+  // Replace the URL below with your actual live Render frontend URL
+  origin: "https://e-commerce-clone-vj0j.onrender.com",
+  credentials: true,
+  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"],
+};
+
+app.use(cors(corsOptions));
+
+// This specifically handles the "preflight" OPTIONS request that is failing in your screenshot
+app.options("/*path", cors(corsOptions));
+
 app.use(
   helmet({
     contentSecurityPolicy: false,
