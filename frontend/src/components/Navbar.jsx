@@ -2,12 +2,14 @@ import { Link, useResolvedPath } from "react-router-dom";
 import { ShoppingBagIcon, ShoppingCartIcon } from "lucide-react";
 import ThemeSelector from "./ThemeSelector";
 import { useProductStore } from "../store/useProductStore";
+import { useContext } from "react";
+import { AuthContext } from "../context/AuthContext";
 
 function Navbar() {
   const { pathname } = useResolvedPath();
   const isHomePage = pathname === "/";
-
   const { products } = useProductStore();
+  const { user, logout } = useContext(AuthContext);
 
   return (
     <div className="bg-base-100/80 backdrop-blur-lg border-b border-base-content/10 sticky top-0 z-50">
@@ -31,6 +33,29 @@ function Navbar() {
           {/* RIGHT SECTION */}
           <div className="flex items-center gap-4">
             <ThemeSelector />
+
+            {user ? (
+              <div className="flex items-center gap-4">
+                <span className="text-sm font-medium hidden md:block">
+                  Hi, {user.name}
+                </span>
+                <button
+                  onClick={logout}
+                  className="btn btn-ghost btn-sm text-error hover:bg-error/10"
+                >
+                  Logout
+                </button>
+              </div>
+            ) : (
+              <div className="flex items-center gap-2">
+                <Link to="/login" className="btn btn-ghost btn-sm">
+                  Login
+                </Link>
+                <Link to="/signup" className="btn btn-primary btn-sm">
+                  Sign Up
+                </Link>
+              </div>
+            )}
 
             {isHomePage && (
               <div className="indicator">

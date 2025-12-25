@@ -1,6 +1,7 @@
 import dotenv from "dotenv";
 dotenv.config();
 
+import authRoutes from "./routes/authRoutes.js";
 import express from "express";
 import helmet from "helmet";
 import morgan from "morgan";
@@ -23,7 +24,7 @@ app.use(
   })
 ); // helmet is a security middleware that helps you protect your app by setting various HTTP headers
 app.use(morgan("dev")); // log the requests
-
+app.use("/api/auth", authRoutes);
 // apply arcjet rate-limit to all routes
 app.use(async (req, res, next) => {
   try {
@@ -62,10 +63,10 @@ app.use(async (req, res, next) => {
 app.use("/api/products", productRoutes);
 
 if (process.env.NODE_ENV === "production") {
-  // server our react app
   app.use(express.static(path.join(__dirname, "/frontend/dist")));
 
-  app.get("*", (req, res) => {
+  // Fix: Name the wildcard (e.g., "*path" or "*splat")
+  app.get("/*path", (req, res) => {
     res.sendFile(path.resolve(__dirname, "frontend", "dist", "index.html"));
   });
 }
@@ -79,7 +80,11 @@ async function initDB() {
         image VARCHAR(255) NOT NULL,
         price DECIMAL(10, 2) NOT NULL,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-      )
+      )`;
+    await sql`
+  ALTER TABLE products 
+  ADD COLUMN IF NOT EXISTS user_id INTEGER REFERENCES users(id);
+
     `;
 
     console.log("Database initialized successfully");
@@ -89,7 +94,8 @@ async function initDB() {
 }
 
 initDB().then(() => {
-  app.listen(PORT, () => {
-    console.log("Server is running on port " + PORT);
+  const PORT = process.env.PORT || 3000;
+  app.listen(PORT, "0.0.0.0", () => {
+    console.log(`Server running on port ${PORT}`);
   });
 });

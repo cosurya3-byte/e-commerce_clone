@@ -1,6 +1,7 @@
 import { create } from "zustand";
 import axios from "axios";
 import toast from "react-hot-toast";
+import API from "../services/api";
 
 // base url will be dynamic depending on the environment
 const BASE_URL =
@@ -23,13 +24,27 @@ export const useProductStore = create((set, get) => ({
   setFormData: (formData) => set({ formData }),
   resetForm: () => set({ formData: { name: "", price: "", image: "" } }),
 
+  fetchProducts: async () => {
+    set({ loading: true });
+    try {
+      // Use the 'API' instance from your services folder
+      // The interceptor inside api.js will automatically add the Bearer token
+      const response = await API.get("/products");
+
+      set({ products: response.data.data, loading: false, error: null });
+    } catch (error) {
+      console.error("Fetch error:", error.response?.data || error.message);
+      set({ error: "Something went wrong", loading: false });
+    }
+  },
+
   addProduct: async (e) => {
     e.preventDefault();
     set({ loading: true });
 
     try {
       const { formData } = get();
-      await axios.post(`${BASE_URL}/api/products`, formData);
+      await API.post("/products", formData);
       await get().fetchProducts();
       get().resetForm();
       toast.success("Product added successfully");
@@ -45,7 +60,7 @@ export const useProductStore = create((set, get) => ({
   fetchProducts: async () => {
     set({ loading: true });
     try {
-      const response = await axios.get(`${BASE_URL}/api/products`);
+      const response = await API.get(`${BASE_URL}/api/products`);
       set({ products: response.data.data, error: null });
     } catch (err) {
       if (err.status == 429)
@@ -60,7 +75,7 @@ export const useProductStore = create((set, get) => ({
     console.log("deleteProduct function called", id);
     set({ loading: true });
     try {
-      await axios.delete(`${BASE_URL}/api/products/${id}`);
+      await API.delete(`${BASE_URL}/api/products/${id}`);
       set((prev) => ({
         products: prev.products.filter((product) => product.id !== id),
       }));
@@ -76,7 +91,7 @@ export const useProductStore = create((set, get) => ({
   fetchProduct: async (id) => {
     set({ loading: true });
     try {
-      const response = await axios.get(`${BASE_URL}/api/products/${id}`);
+      const response = await API.get(`${BASE_URL}/api/products/${id}`);
       set({
         currentProduct: response.data.data,
         formData: response.data.data, // pre-fill form with current product data
@@ -93,7 +108,7 @@ export const useProductStore = create((set, get) => ({
     set({ loading: true });
     try {
       const { formData } = get();
-      const response = await axios.put(
+      const response = await API.put(
         `${BASE_URL}/api/products/${id}`,
         formData
       );

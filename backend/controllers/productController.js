@@ -17,6 +17,16 @@ export const getProducts = async (req, res) => {
 
 export const createProduct = async (req, res) => {
   const { name, price, image } = req.body;
+  const userId = req.user.userId;
+  // CRITICAL: Check your terminal for this output when you add a product
+  console.log("Adding product. User object from req:", req.user);
+  console.log("Extracted userId:", userId);
+
+  if (!userId) {
+    return res
+      .status(401)
+      .json({ success: false, message: "Unauthorized: User ID missing" });
+  }
 
   if (!name || !price || !image) {
     return res
@@ -25,11 +35,12 @@ export const createProduct = async (req, res) => {
   }
 
   try {
+    // Ensure there is a space-less 'sql' right before the backtick
     const newProduct = await sql`
-      INSERT INTO products (name,price,image)
-      VALUES (${name},${price},${image})
-      RETURNING *
-    `;
+  INSERT INTO products (name, price, image, user_id)
+  VALUES (${name}, ${price}, ${image}, ${userId})
+  RETURNING *
+`;
 
     res.status(201).json({ success: true, data: newProduct[0] });
   } catch (error) {
@@ -42,8 +53,11 @@ export const getProduct = async (req, res) => {
   const { id } = req.params;
 
   try {
+    const userId = req.user.userId;
     const product = await sql`
-     SELECT * FROM products WHERE id=${id}
+     SELECT * FROM products
+     WHERE user_id = ${userId}
+     ORDER BY created_at DESC
     `;
 
     res.status(200).json({ success: true, data: product[0] });
@@ -56,12 +70,13 @@ export const getProduct = async (req, res) => {
 export const updateProduct = async (req, res) => {
   const { id } = req.params;
   const { name, price, image } = req.body;
+  const userId = req.user.userId;
 
   try {
     const updateProduct = await sql`
       UPDATE products
       SET name=${name}, price=${price}, image=${image}
-      WHERE id=${id}
+      WHERE id = ${id} AND user_id = ${userId}
       RETURNING *
     `;
 
@@ -81,10 +96,13 @@ export const updateProduct = async (req, res) => {
 
 export const deleteProduct = async (req, res) => {
   const { id } = req.params;
+  const userId = req.user.userId;
 
   try {
     const deletedProduct = await sql`
-      DELETE FROM products WHERE id=${id} RETURNING *
+      DELETE FROM products
+      WHERE id = ${id} AND user_id = ${userId}
+      RETURNING *
     `;
 
     if (deletedProduct.length === 0) {
