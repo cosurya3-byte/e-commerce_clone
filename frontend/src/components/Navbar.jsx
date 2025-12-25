@@ -12,9 +12,9 @@ function Navbar() {
 
   const handleSearch = (e) => {
     const value = e.target.search;
-    setSearchTerm(value);
+    setSearchTerm(search);
     // Now this will work because it is defined from the store
-    fetchProducts(value);
+    fetchProducts(search);
   };
 
   const { pathname } = useResolvedPath();
