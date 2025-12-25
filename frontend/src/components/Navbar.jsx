@@ -11,7 +11,7 @@ function Navbar() {
   const { fetchProducts } = useProductStore();
 
   const handleSearch = (e) => {
-    const value = e.target.value;
+    const value = e.target.search;
     setSearchTerm(value);
     // Now this will work because it is defined from the store
     fetchProducts(value);

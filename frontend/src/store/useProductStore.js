@@ -139,7 +139,7 @@ export const useProductStore = create((set, get) => ({
     set({ loading: true });
     try {
       // This sends: https://your-site.com/api/products?search=P
-      const res = await API.get(`/products?search=${searchTerm}`);
+      const res = await API.get(`/products?search=${search}`);
       set({ products: res.data.data, loading: false });
     } catch (error) {
       set({ error: "Error fetching products", loading: false });
