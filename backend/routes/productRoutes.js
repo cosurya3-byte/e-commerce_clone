@@ -10,11 +10,11 @@ import { protectRoute } from "../middleWare/authMiddleware.js";
 
 const router = expres.Router();
 
+router.get("/search", getProducts);
 router.get("/", getProducts);
 router.get("/:id", protectRoute, getProduct);
 router.post("/", protectRoute, createProduct);
 router.put("/:id", protectRoute, updateProduct);
 router.delete("/:id", protectRoute, deleteProduct);
-router.get("/search", getProducts);
 
 export default router;
