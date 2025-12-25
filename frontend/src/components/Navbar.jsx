@@ -7,6 +7,16 @@ import { AuthContext } from "../context/AuthContext";
 import { useState } from "react";
 
 function Navbar() {
+  // At the top of your Navbar function
+  const { fetchProducts } = useProductStore();
+
+  const handleSearch = (e) => {
+    const value = e.target.value;
+    setSearchTerm(value);
+    // Now this will work because it is defined from the store
+    fetchProducts(value);
+  };
+
   const { pathname } = useResolvedPath();
   const isHomePage = pathname === "/";
   const { products } = useProductStore();
@@ -19,12 +29,6 @@ function Navbar() {
   // Check if the current path is /login or /signup
   const isAuthPage =
     location.pathname === "/login" || location.pathname === "/signup";
-
-  const handleSearch = (e) => {
-    const value = e.target.value;
-    setSearchTerm(value);
-    fetchProducts(value); // Trigger the API call with the letter 'P'
-  };
 
   return (
     <div className="bg-base-100/80 backdrop-blur-lg border-b border-base-content/10 sticky top-0 z-50">

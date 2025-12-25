@@ -123,9 +123,9 @@ export const useProductStore = create((set, get) => ({
     }
   },
 
-  searchProducts: async (query) => {
+  searchProducts: async (search) => {
     try {
-      const res = await API.get(`/products/search?query=${Search}`);
+      const res = await API.get(`/products/search?search =${search}`);
       // Double-check if your data is in res.data or res.data.data
       const results = res.data.data || [];
       set({ products: results }); // Ensure 'results' is always an array

@@ -1,7 +1,7 @@
 import { sql } from "../config/db.js";
 
 export const getProducts = async (req, res) => {
-  const { search } = req.query; // Get ?search=P from URL
+  const { search } = req.search; // Get ?search=P from URL
   try {
     let products;
     if (search) {
