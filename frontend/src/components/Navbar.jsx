@@ -1,15 +1,30 @@
-import { Link, useResolvedPath } from "react-router-dom";
+import { Link, useResolvedPath, useLocation } from "react-router-dom";
 import { ShoppingBagIcon, ShoppingCartIcon } from "lucide-react";
 import ThemeSelector from "./ThemeSelector";
 import { useProductStore } from "../store/useProductStore";
 import { useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
+import { useState } from "react";
 
 function Navbar() {
   const { pathname } = useResolvedPath();
   const isHomePage = pathname === "/";
   const { products } = useProductStore();
   const { user, logout } = useContext(AuthContext);
+  const [searchTerm, setSearchTerm] = useState("");
+  const { searchProducts } = useProductStore();
+
+  const location = useLocation(); // Get the current path
+
+  // Check if the current path is /login or /signup
+  const isAuthPage =
+    location.pathname === "/login" || location.pathname === "/signup";
+
+  const handleSearch = (e) => {
+    const value = e.target.value;
+    setSearchTerm(value);
+    searchProducts(value); // This will filter your products list in real-time
+  };
 
   return (
     <div className="bg-base-100/80 backdrop-blur-lg border-b border-base-content/10 sticky top-0 z-50">
@@ -32,6 +47,19 @@ function Navbar() {
 
           {/* RIGHT SECTION */}
           <div className="flex items-center gap-4">
+            {/* SEARCH BAR SECTION */}
+            {!isAuthPage && (
+              <div className="relative hidden sm:block">
+                <input
+                  type="text"
+                  placeholder="Search products..."
+                  value={searchTerm}
+                  onChange={handleSearch}
+                  className="input input-sm input-bordered w-40 lg:w-64 focus:w-80 transition-all duration-300"
+                />
+                <span className="absolute right-2 top-1.5 opacity-50">🔍</span>
+              </div>
+            )}
             <ThemeSelector />
 
             {user ? (

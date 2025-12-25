@@ -118,3 +118,18 @@ export const deleteProduct = async (req, res) => {
     res.status(500).json({ success: false, message: "Internal Server Error" });
   }
 };
+
+export const searchProducts = async (req, res) => {
+  const { query } = req.query; // This gets the text from the URL (e.g., ?query=phone)
+  try {
+    // This SQL query looks for matches in the name or category
+    const products = await sql`
+      SELECT * FROM products 
+      WHERE name ILIKE ${"%" + query + "%"} 
+      OR category ILIKE ${"%" + query + "%"}
+    `;
+    res.status(200).json({ success: true, data: products });
+  } catch (error) {
+    res.status(500).json({ success: false, message: "Search failed" });
+  }
+};

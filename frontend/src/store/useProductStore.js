@@ -121,4 +121,14 @@ export const useProductStore = create((set, get) => ({
       set({ loading: false });
     }
   },
+
+  searchProducts: async (searchTerm) => {
+    set({ loading: true });
+    try {
+      const res = await API.get(`/products/search?query=${searchTerm}`); // Uses your API instance
+      set({ products: res.data.data, loading: false });
+    } catch (error) {
+      set({ error: "Search failed", loading: false });
+    }
+  },
 }));
