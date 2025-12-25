@@ -1,6 +1,7 @@
 import { useState } from "react";
 import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
+import API from "../services/api";
 
 const SignupPage = () => {
   const [formData, setFormData] = useState({
@@ -13,7 +14,7 @@ const SignupPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post("http://localhost:3000/api/auth/signup", formData);
+      await API.post("/auth/signup", formData);
       alert("Account created! Please log in.");
       navigate("/login");
     } catch (error) {
