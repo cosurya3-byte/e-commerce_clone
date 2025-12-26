@@ -1,22 +1,20 @@
 import { sql } from "../config/db.js";
 
 export const getProducts = async (req, res) => {
-  const { search } = req.search; // Get ?search=P from URL
   try {
-    let products;
-    if (search) {
-      // Use % wildcards for "fuzzy" matching
-      products = await sql`
-        SELECT * FROM products 
-        WHERE name ILIKE ${"%" + search + "%"} 
-        ORDER BY created_at DESC
-      `;
-    } else {
-      products = await sql`SELECT * FROM products ORDER BY created_at DESC`;
-    }
+    // 1. Remove the line: const userId = req.user.userId;
+    // This stops the "Cannot read properties of undefined" crash.
+
+    // 2. Fetch all products without any filtering
+    const products = await sql`
+      SELECT * FROM products 
+      ORDER BY created_at DESC
+    `;
+
     res.status(200).json({ success: true, data: products });
   } catch (error) {
-    res.status(500).json({ success: false, message: "Server Error" });
+    console.error("Error in getProducts function:", error);
+    res.status(500).json({ success: false, message: "Internal Server Error" });
   }
 };
 
