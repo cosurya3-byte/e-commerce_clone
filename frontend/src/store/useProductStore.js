@@ -2,7 +2,6 @@ import { create } from "zustand";
 import axios from "axios";
 import toast from "react-hot-toast";
 import API from "../services/api";
-import { Search } from "lucide-react";
 
 // base url will be dynamic depending on the environment
 const BASE_URL =
@@ -123,7 +122,7 @@ export const useProductStore = create((set, get) => ({
     }
   },
 
-  searchProducts: async (search) => {
+  /* searchProducts: async (search) => {
     try {
       const res = await API.get(`/products/search?search =${search}`);
       // Double-check if your data is in res.data or res.data.data
@@ -144,5 +143,5 @@ export const useProductStore = create((set, get) => ({
     } catch (error) {
       set({ error: "Error fetching products", loading: false });
     }
-  },
+  }, */
 }));

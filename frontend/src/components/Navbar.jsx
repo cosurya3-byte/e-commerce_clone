@@ -10,19 +10,18 @@ function Navbar() {
   // At the top of your Navbar function
   const { fetchProducts } = useProductStore();
 
-  const handleSearch = (e) => {
+  /* const handleSearch = (e) => {
     const value = e.target.search;
     setSearchTerm(search);
     // Now this will work because it is defined from the store
     fetchProducts(search);
-  };
+  }; */
 
   const { pathname } = useResolvedPath();
   const isHomePage = pathname === "/";
   const { products } = useProductStore();
   const { user, logout } = useContext(AuthContext);
   const [searchTerm, setSearchTerm] = useState("");
-  const { searchProducts } = useProductStore();
 
   const location = useLocation(); // Get the current path
 
@@ -52,7 +51,7 @@ function Navbar() {
           {/* RIGHT SECTION */}
           <div className="flex items-center gap-4">
             {/* SEARCH BAR SECTION */}
-            {!isAuthPage && (
+            {/* {!isAuthPage && (
               <div className="relative hidden sm:block">
                 <input
                   type="text"
@@ -63,7 +62,7 @@ function Navbar() {
                 />
                 <span className="absolute right-2 top-1.5 opacity-50">🔍</span>
               </div>
-            )}
+            )} */}
             <ThemeSelector />
 
             {user ? (
