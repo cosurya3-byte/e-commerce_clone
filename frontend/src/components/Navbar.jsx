@@ -51,7 +51,7 @@ function Navbar() {
           {/* RIGHT SECTION */}
           <div className="flex items-center gap-4">
             {/* SEARCH BAR SECTION */}
-            {!isAuthPage && (
+            {isHomePage && (
               <div className="relative hidden sm:block">
                 <input
                   type="text"
