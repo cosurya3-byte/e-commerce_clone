@@ -10,8 +10,6 @@ import { protectRoute } from "../middleWare/authMiddleware.js";
 
 const router = expres.Router();
 
-router.get("/search", getProducts);
-
 router.get("/", getProducts);
 
 router.get("/:id", protectRoute, getProduct);
