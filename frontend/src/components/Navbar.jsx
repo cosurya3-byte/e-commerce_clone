@@ -57,7 +57,7 @@ function Navbar() {
                   type="text"
                   placeholder="Search products..."
                   value={searchTerm}
-                  onChange={handleSearch}
+                  /* onChange={handleSearch} */
                   className="input input-sm input-bordered w-40 lg:w-64 focus:w-80 transition-all duration-300"
                 />
                 <span className="absolute right-2 top-1.5 opacity-50">🔍</span>
