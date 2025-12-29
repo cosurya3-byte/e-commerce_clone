@@ -1,5 +1,10 @@
 import { Link, useResolvedPath, useLocation } from "react-router-dom";
-import { ShoppingBagIcon, ShoppingCartIcon, SearchIcon } from "lucide-react";
+import {
+  ShoppingBagIcon,
+  ShoppingCartIcon,
+  SearchIcon,
+  XIcon,
+} from "lucide-react";
 import ThemeSelector from "./ThemeSelector";
 import { useProductStore } from "../store/useProductStore";
 import { useContext } from "react";
@@ -56,12 +61,24 @@ function Navbar() {
                   <input
                     type="text"
                     placeholder="Search products..."
-                    className="input input-bordered w-full pl-10 bg-base-200"
+                    className="input input-bordered w-full pl-10 pr-10 bg-base-200 focus:bg-base-100 transition-all"
                     // 2. Bind the value to the store state
                     value={searchQuery}
                     // 3. Update the store on every keystroke
                     onChange={(e) => setSearchQuery(e.target.value)}
                   />
+
+                  {/* 1. Only show the 'X' button if there is text in the search bar */}
+                  {searchQuery && (
+                    <button
+                      onClick={() => setSearchQuery("")}
+                      className="absolute right-3 top-1/2 -translate-y-1/2 p-1 hover:bg-base-300 rounded-full transition-colors"
+                      aria-label="Clear search"
+                    >
+                      <XIcon className="size-4 text-base-content/70" />
+                    </button>
+                  )}
+
                   <SearchIcon className="absolute left-3 top-1/2 -translate-y-1/2 size-5 text-base-content/50" />
                 </div>
               </div>
