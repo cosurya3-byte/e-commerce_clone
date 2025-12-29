@@ -44,6 +44,32 @@ const CartPage = () => {
     <div className="max-w-4xl mx-auto p-4">
       <h1 className="text-3xl font-bold mb-8 text-white">Shopping Cart</h1>
       {/* ... mapping items code ... */}
+      <div className="grid gap-6">
+        {cart.map((item) => (
+          <div
+            key={item.id}
+            className="flex items-center bg-base-100 p-4 rounded-lg shadow-md gap-4"
+          >
+            <img
+              src={item.image}
+              alt={item.name}
+              className="w-24 h-24 object-cover rounded"
+            />
+            <div className="flex-1">
+              <h3 className="text-xl font-semibold">{item.name}</h3>
+              <p className="text-primary font-bold">${item.price}</p>
+            </div>
+            <div className="flex items-center gap-2">
+              <button
+                onClick={() => removeFromCart(item.id)}
+                className="btn btn-ghost btn-sm text-error"
+              >
+                <Trash2Icon size={18} />
+              </button>
+            </div>
+          </div>
+        ))}
+      </div>
 
       <div className="mt-10 p-6 bg-base-200 rounded-lg flex justify-between items-center">
         <span className="text-2xl font-bold">
