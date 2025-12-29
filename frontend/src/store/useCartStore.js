@@ -28,6 +28,20 @@ export const useCartStore = create(
         set({ cart: get().cart.filter((item) => item.id !== productId) });
       },
 
+      updateQuantity: (productId, amount) => {
+        const { cart } = get();
+        set({
+          cart: cart.map((item) =>
+            item.id === productId
+              ? {
+                  ...item,
+                  quantity: Math.max(1, (item.quantity || 1) + amount),
+                }
+              : item
+          ),
+        });
+      },
+
       clearCart: () => set({ cart: [] }),
     }),
     { name: "shopping-cart" } // Saves cart in LocalStorage automatically

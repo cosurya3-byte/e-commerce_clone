@@ -5,7 +5,7 @@ import { Link, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 
 const CartPage = () => {
-  const { cart, removeFromCart, clearCart } = useCartStore();
+  const { cart, removeFromCart, clearCart, updateQuantity } = useCartStore();
   const [isProcessing, setIsProcessing] = useState(false);
   const navigate = useNavigate(); // 3. Initialize navigate inside the component
 
@@ -33,21 +33,6 @@ const CartPage = () => {
     (acc, item) => acc + item.price * (item.quantity || 1),
     0
   );
-
-  /* const handleMockPayment = async () => {
-    if (cart.length === 0) return;
-    setIsProcessing(true);
-
-    // Use toast for feedback
-    const loadingToast = toast.loading("Processing mock payment...");
-
-    await new Promise((resolve) => setTimeout(resolve, 2000));
-
-    clearCart();
-    toast.success("Payment Successful!", { id: loadingToast });
-    setIsProcessing(false);
-    navigate("/"); // Redirect home
-  }; */
 
   if (cart.length === 0) {
     return (
@@ -78,6 +63,25 @@ const CartPage = () => {
             <div className="flex-1">
               <h3 className="text-xl font-semibold">{item.name}</h3>
               <p className="text-primary font-bold">${item.price}</p>
+            </div>
+            <div className="flex items-center gap-3 bg-base-300 p-2 rounded-lg">
+              <button
+                onClick={() => updateQuantity(item.id, -1)}
+                className="btn btn-xs btn-circle btn-ghost"
+              >
+                <MinusIcon size={16} />
+              </button>
+
+              <span className="font-bold min-w-[1.5rem] text-center">
+                {item.quantity || 1}
+              </span>
+
+              <button
+                onClick={() => updateQuantity(item.id, 1)}
+                className="btn btn-xs btn-circle btn-ghost"
+              >
+                <PlusIcon size={16} />
+              </button>
             </div>
             <div className="flex items-center gap-2">
               <button
