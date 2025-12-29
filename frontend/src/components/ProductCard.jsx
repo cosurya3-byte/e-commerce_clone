@@ -3,11 +3,21 @@ import { Link } from "react-router-dom";
 import { useProductStore } from "../store/useProductStore";
 import { useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
+import { useCartStore } from "../store/useCartStore";
+import { ShoppingCartIcon } from "lucide-react";
+import toast from "react-hot-toast";
 
 function ProductCard({ product }) {
   const { deleteProduct } = useProductStore();
 
   const { user } = useContext(AuthContext);
+
+  const { addToCart } = useCartStore();
+
+  const handleAddToCart = () => {
+    addToCart(product);
+    toast.success(`${product.name} added to cart!`);
+  };
 
   console.log(
     "Logged-in User ID:",
@@ -59,7 +69,7 @@ function ProductCard({ product }) {
 
         <button
           className="btn btn-sm btn-primary flex items-center gap-2"
-          onClick={() => console.log("Added to cart:", product.name)}
+          onClick={handleAddToCart}
         >
           <ShoppingCartIcon className="size-4" />
           Add to Cart

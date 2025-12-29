@@ -5,10 +5,15 @@ import { useProductStore } from "../store/useProductStore";
 import { useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { useState } from "react";
+import { useCartStore } from "../store/useCartStore";
 
 function Navbar() {
   // At the top of your Navbar function
   const { fetchProducts } = useProductStore();
+
+  const { cart } = useCartStore();
+  // Calculate total items (e.g., 2 apples + 1 orange = 3)
+  const cartCount = cart.reduce((acc, item) => acc + (item.quantity || 1), 0);
 
   /* const handleSearch = (e) => {
     const value = e.target.search;
@@ -92,9 +97,11 @@ function Navbar() {
               <div className="indicator">
                 <div className="p-2 rounded-full hover:bg-base-200 transition-colors">
                   <ShoppingBagIcon className="size-5" />
-                  <span className="badge badge-sm badge-primary indicator-item">
-                    {products?.length || 0}
-                  </span>
+                  {cartCount > 0 && (
+                    <span className="badge badge-sm badge-success absolute -top-2 -right-2">
+                      {cartCount}
+                    </span>
+                  )}
                 </div>
               </div>
             )}
