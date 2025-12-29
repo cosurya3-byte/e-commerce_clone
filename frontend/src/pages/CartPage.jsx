@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect, useContext } from "react";
 import { useCartStore } from "../store/useCartStore";
 import { Trash2Icon, PlusIcon, MinusIcon, ArrowLeftIcon } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
@@ -7,7 +7,18 @@ import toast from "react-hot-toast";
 const CartPage = () => {
   const { cart, removeFromCart, clearCart, updateQuantity } = useCartStore();
   const [isProcessing, setIsProcessing] = useState(false);
-  const navigate = useNavigate(); // 3. Initialize navigate inside the component
+  const { user, loading } = useContext(AuthContext);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    // If auth finishes loading and there is no user, kick them out
+    if (!loading && !user) {
+      navigate("/");
+    }
+  }, [user, loading, navigate]);
+
+  if (loading) return <div>Loading...</div>;
+  if (!user) return null;
 
   const handleMockPayment = async () => {
     if (cart.length === 0) return;
