@@ -16,9 +16,13 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   const login = (userData, token) => {
+    const userWithId = {
+      ...userData,
+      userId: userData.userId || userData.id, // Fallback in case backend sends 'id'
+    };
     localStorage.setItem("token", token);
-    localStorage.setItem("user", JSON.stringify(userData));
-    setUser(userData);
+    localStorage.setItem("user", JSON.stringify(userWithId));
+    setUser(userWithId);
   };
 
   const logout = () => {
