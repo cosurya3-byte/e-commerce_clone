@@ -73,8 +73,7 @@ export const getProduct = async (req, res) => {
 export const updateProduct = async (req, res) => {
   const { id } = req.params;
   const { name, price, image } = req.body;
-  const userId = req.user.userId;
-
+  const userId = req.user?.userId;
   try {
     const updateProduct = await sql`
       UPDATE products
