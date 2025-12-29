@@ -56,6 +56,14 @@ function ProductCard({ product }) {
             </button>
           </div>
         )}
+
+        <button
+          className="btn btn-sm btn-primary flex items-center gap-2"
+          onClick={() => console.log("Added to cart:", product.name)}
+        >
+          <ShoppingCartIcon className="size-4" />
+          Add to Cart
+        </button>
       </div>
     </div>
   );
