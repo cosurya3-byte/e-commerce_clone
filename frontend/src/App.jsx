@@ -8,6 +8,7 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import SignupPage from "./pages/SignupPage";
 import ProfilePage from "./pages/ProfilePage";
 import LoginPage from "./pages/LoginPage";
+import CartPage from "./pages/CartPage";
 
 function App() {
   const { theme } = useThemeStore();
@@ -22,6 +23,7 @@ function App() {
       <Routes>
         <Route path="/login" element={<LoginPage />} />
         <Route path="/signup" element={<SignupPage />} />
+        <Route path="/cart" element={<CartPage />} />
         <Route
           path="/"
           element={

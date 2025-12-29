@@ -95,14 +95,16 @@ function Navbar() {
 
             {isHomePage && (
               <div className="indicator">
-                <div className="p-2 rounded-full hover:bg-base-200 transition-colors">
-                  <ShoppingBagIcon className="size-5" />
-                  {cartCount > 0 && (
-                    <span className="badge badge-sm badge-success absolute -top-2 -right-2">
-                      {cartCount}
-                    </span>
-                  )}
-                </div>
+                <Link to="/cart" className="btn btn-ghost btn-circle">
+                  <div className="p-2 rounded-full hover:bg-base-200 transition-colors">
+                    <ShoppingBagIcon className="size-5" />
+                    {cartCount > 0 && (
+                      <span className="badge badge-sm badge-success absolute -top-2 -right-2">
+                        {cartCount}
+                      </span>
+                    )}
+                  </div>
+                </Link>
               </div>
             )}
           </div>
