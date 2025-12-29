@@ -1,9 +1,15 @@
 import { EditIcon, Trash2Icon } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useProductStore } from "../store/useProductStore";
+import { useContext } from "react";
+import { AuthContext } from "../context/AuthContext";
 
 function ProductCard({ product }) {
   const { deleteProduct } = useProductStore();
+
+  const { user } = useContext(AuthContext);
+  const isOwner = user?.userId === product.user_id;
+
   return (
     <div className="card bg-base-100 shadow-xl hover:shadow-2xl transition-shadow duration-300">
       {/* PRODUCT IMAGE */}
@@ -23,6 +29,7 @@ function ProductCard({ product }) {
         </p>
 
         {/* CARD ACTIONS */}
+
         {isOwner && (
           <div className="card-actions justify-end mt-4">
             <Link
@@ -31,10 +38,9 @@ function ProductCard({ product }) {
             >
               <EditIcon className="size-4" />
             </Link>
-
             <button
-              className="btn btn-sm btn-error  btn-outline"
               onClick={() => deleteProduct(product.id)}
+              className="btn btn-sm btn-error btn-outline"
             >
               <Trash2Icon className="size-4" />
             </button>
