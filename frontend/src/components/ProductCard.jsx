@@ -8,7 +8,14 @@ function ProductCard({ product }) {
   const { deleteProduct } = useProductStore();
 
   const { user } = useContext(AuthContext);
-  const isOwner = user?.userId === product.user_id;
+
+  console.log(
+    "Logged-in User ID:",
+    user?.userId,
+    "Product Owner ID:",
+    product.user_id
+  );
+  const isOwner = user && String(user.userId) === String(product.user_id);
 
   return (
     <div className="card bg-base-100 shadow-xl hover:shadow-2xl transition-shadow duration-300">
