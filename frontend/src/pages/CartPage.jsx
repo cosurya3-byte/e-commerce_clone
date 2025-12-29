@@ -9,12 +9,32 @@ const CartPage = () => {
   const [isProcessing, setIsProcessing] = useState(false);
   const navigate = useNavigate(); // 3. Initialize navigate inside the component
 
+  const handleMockPayment = async () => {
+    if (cart.length === 0) return;
+
+    setIsProcessing(true);
+    toast.loading("Redirecting to payment gateway...", { id: "payment" });
+
+    // 1. Simulate Network Delay (Mock Processing)
+    await new Promise((resolve) => setTimeout(resolve, 2500));
+
+    // 2. Finalize Transaction
+    clearCart();
+    toast.success("Payment Successful! Your order is placed.", {
+      id: "payment",
+    });
+    setIsProcessing(false);
+
+    // 3. Redirect to Home
+    navigate("/");
+  };
+
   const totalPrice = cart.reduce(
     (acc, item) => acc + item.price * (item.quantity || 1),
     0
   );
 
-  const handleMockPayment = async () => {
+  /* const handleMockPayment = async () => {
     if (cart.length === 0) return;
     setIsProcessing(true);
 
@@ -27,7 +47,7 @@ const CartPage = () => {
     toast.success("Payment Successful!", { id: loadingToast });
     setIsProcessing(false);
     navigate("/"); // Redirect home
-  };
+  }; */
 
   if (cart.length === 0) {
     return (
@@ -76,11 +96,13 @@ const CartPage = () => {
           Total: ${totalPrice.toFixed(2)}
         </span>
         <button
-          className={`btn btn-primary btn-lg ${isProcessing ? "loading" : ""}`}
+          className={`btn btn-primary btn-lg w-full md:w-auto ${
+            isProcessing ? "loading" : ""
+          }`}
           onClick={handleMockPayment}
           disabled={isProcessing}
         >
-          {isProcessing ? "Processing..." : "Checkout"}
+          {isProcessing ? "Processing Payment..." : "Pay with Mock Gateway"}
         </button>
       </div>
     </div>
