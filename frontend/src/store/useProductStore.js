@@ -60,7 +60,7 @@ export const useProductStore = create((set, get) => ({
   fetchProducts: async () => {
     set({ loading: true });
     try {
-      const response = await API.get(`${BASE_URL}/products`);
+      const response = await API.get(`/products`);
       set({ products: response.data.data, error: null });
     } catch (err) {
       if (err.status == 429)
@@ -75,7 +75,7 @@ export const useProductStore = create((set, get) => ({
     console.log("deleteProduct function called", id);
     set({ loading: true });
     try {
-      await API.delete(`${BASE_URL}/api/products/${id}`);
+      await API.delete(`/products/${id}`);
       set((prev) => ({
         products: prev.products.filter((product) => product.id !== id),
       }));
@@ -91,7 +91,7 @@ export const useProductStore = create((set, get) => ({
   fetchProduct: async (id) => {
     set({ loading: true });
     try {
-      const response = await API.get(`${BASE_URL}/products/${id}`);
+      const response = await API.get(`/products/${id}`);
       set({
         currentProduct: response.data.data,
         formData: response.data.data, // pre-fill form with current product data
@@ -108,10 +108,7 @@ export const useProductStore = create((set, get) => ({
     set({ loading: true });
     try {
       const { formData } = get();
-      const response = await API.put(
-        `${BASE_URL}/api/products/${id}`,
-        formData
-      );
+      const response = await API.put(`/products/${id}`, formData);
       set({ currentProduct: response.data.data });
       toast.success("Product updated successfully");
     } catch (error) {
