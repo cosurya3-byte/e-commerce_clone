@@ -29,28 +29,28 @@ function HomePage() {
           Add Product
         </button>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {/* 3. Map over 'filteredProducts' instead of the raw 'products' array */}
-          {filteredProducts.map((product) => (
-            <ProductCard key={product.id} product={product} />
-          ))}
-        </div>
-
-        {/* 4. Handle the "No Results" state visually */}
-        {filteredProducts.length === 0 && !loading && (
-          <div className="text-center py-20">
-            <h2 className="text-2xl font-semibold text-base-content/50">
-              No products match your search.
-            </h2>
-          </div>
-        )}
-
         <button className="btn btn-ghost btn-circle" onClick={fetchProducts}>
           <RefreshCwIcon className="size-5" />
         </button>
       </div>
 
       <AddProductModal />
+
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {/* 3. Map over 'filteredProducts' instead of the raw 'products' array */}
+        {filteredProducts.map((product) => (
+          <ProductCard key={product.id} product={product} />
+        ))}
+      </div>
+
+      {/* 4. Handle the "No Results" state visually */}
+      {filteredProducts.length === 0 && !loading && (
+        <div className="text-center py-20">
+          <h2 className="text-2xl font-semibold text-base-content/50">
+            No products match your search.
+          </h2>
+        </div>
+      )}
 
       {error && <div className="alert alert-error mb-8">{error}</div>}
 
