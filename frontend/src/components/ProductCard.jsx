@@ -15,7 +15,10 @@ function ProductCard({ product }) {
     "Product Owner ID:",
     product.user_id
   );
-  const isOwner = user && String(user.userId) === String(product.user_id);
+  const isOwner =
+    user &&
+    (String(user.userId) === String(product.user_id) ||
+      String(user.id) === String(product.user_id));
 
   return (
     <div className="card bg-base-100 shadow-xl hover:shadow-2xl transition-shadow duration-300">
