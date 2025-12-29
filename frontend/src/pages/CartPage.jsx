@@ -1,15 +1,31 @@
+import { useState } from "react"; // New
 import { useCartStore } from "../store/useCartStore";
 import { Trash2Icon, PlusIcon, MinusIcon } from "lucide-react";
-import { Link } from "react-router-dom";
-
+import { Link, useNavigate } from "react-router-dom"; // Added useNavigate
+import toast from "react-hot-toast"; // New
 const CartPage = () => {
-  const { cart, removeFromCart, addToCart } = useCartStore();
-
   // Calculate the total price of all items in the cart
   const totalPrice = cart.reduce(
     (acc, item) => acc + item.price * (item.quantity || 1),
     0
   );
+
+  const { cart, removeFromCart, clearCart } = useCartStore(); // Added clearCart
+  const [isCheckingOut, setIsCheckingOut] = useState(false); // New state
+  const navigate = useNavigate(); // Initialize navigate
+
+  const handleCheckout = async () => {
+    if (cart.length === 0) return;
+
+    setIsCheckingOut(true);
+    // Simulate payment delay
+    await new Promise((resolve) => setTimeout(resolve, 2000));
+
+    clearCart(); // Clear the store
+    toast.success("Order placed successfully!");
+    setIsCheckingOut(false);
+    navigate("/"); // Redirect to home
+  };
 
   if (cart.length === 0) {
     return (
@@ -55,7 +71,13 @@ const CartPage = () => {
         <span className="text-2xl font-bold">
           Total: ${totalPrice.toFixed(2)}
         </span>
-        <button className="btn btn-primary btn-lg">Checkout</button>
+        <button
+          className={`btn btn-primary btn-lg ${isCheckingOut ? "loading" : ""}`}
+          onClick={handleCheckout}
+          disabled={isCheckingOut}
+        >
+          {isCheckingOut ? "Processing..." : "Checkout"}
+        </button>
       </div>
     </div>
   );
