@@ -7,6 +7,11 @@ import AddProductModal from "../components/AddProductModal";
 function HomePage() {
   const { products, loading, error, fetchProducts } = useProductStore();
 
+  const { getFilteredProducts } = useProductStore();
+
+  // 1. Use the filtering function instead of the raw products array
+  const filteredProducts = getFilteredProducts();
+
   useEffect(() => {
     fetchProducts();
   }, [fetchProducts]);
@@ -64,6 +69,22 @@ function HomePage() {
                   No products found.
                 </div>
               )}
+        </div>
+      )}
+
+      {/* 2. Map over filteredProducts instead of products */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {filteredProducts.map((product) => (
+          <ProductCard key={product.id} product={product} />
+        ))}
+      </div>
+
+      {/* 3. Show a "No results" message if the search finds nothing */}
+      {filteredProducts.length === 0 && !loading && (
+        <div className="text-center py-10">
+          <p className="text-xl text-base-content/70">
+            No products match your search.
+          </p>
         </div>
       )}
     </main>

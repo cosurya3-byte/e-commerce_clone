@@ -1,5 +1,5 @@
 import { Link, useResolvedPath, useLocation } from "react-router-dom";
-import { ShoppingBagIcon, ShoppingCartIcon } from "lucide-react";
+import { ShoppingBagIcon, ShoppingCartIcon, SearchIcon } from "lucide-react";
 import ThemeSelector from "./ThemeSelector";
 import { useProductStore } from "../store/useProductStore";
 import { useContext } from "react";
@@ -10,17 +10,11 @@ import { useCartStore } from "../store/useCartStore";
 function Navbar() {
   // At the top of your Navbar function
   const { fetchProducts } = useProductStore();
+  const { searchQuery, setSearchQuery } = useProductStore();
 
   const { cart } = useCartStore();
   // Calculate total items (e.g., 2 apples + 1 orange = 3)
   const cartCount = cart.reduce((acc, item) => acc + (item.quantity || 1), 0);
-
-  /* const handleSearch = (e) => {
-    const value = e.target.search;
-    setSearchTerm(search);
-    // Now this will work because it is defined from the store
-    fetchProducts(search);
-  }; */
 
   const { pathname } = useResolvedPath();
   const isHomePage = pathname === "/";
@@ -57,15 +51,19 @@ function Navbar() {
           <div className="flex items-center gap-4">
             {/* SEARCH BAR SECTION */}
             {isHomePage && (
-              <div className="relative hidden sm:block">
-                <input
-                  type="text"
-                  placeholder="Search products..."
-                  value={searchTerm}
-                  /* onChange={handleSearch} */
-                  className="input input-sm input-bordered w-40 lg:w-64 focus:w-80 transition-all duration-300"
-                />
-                <span className="absolute right-2 top-1.5 opacity-50">🔍</span>
+              <div className="flex-1 max-w-md mx-4 hidden sm:block">
+                <div className="relative">
+                  <input
+                    type="text"
+                    placeholder="Search products..."
+                    className="input input-bordered w-full pl-10 bg-base-200"
+                    // 2. Bind the value to the store state
+                    value={searchQuery}
+                    // 3. Update the store on every keystroke
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                  />
+                  <SearchIcon className="absolute left-3 top-1/2 -translate-y-1/2 size-5 text-base-content/50" />
+                </div>
               </div>
             )}
             <ThemeSelector />

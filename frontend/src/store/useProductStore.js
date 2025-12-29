@@ -57,6 +57,20 @@ export const useProductStore = create((set, get) => ({
     }
   },
 
+  products: [],
+  searchQuery: "", // New state for the search text
+
+  // Function to update the search query
+  setSearchQuery: (query) => set({ searchQuery: query }),
+
+  // Logic to filter products based on the name
+  getFilteredProducts: () => {
+    const { products, searchQuery } = get();
+    return products.filter((product) =>
+      product.name.toLowerCase().includes(searchQuery.toLowerCase())
+    );
+  },
+
   fetchProducts: async () => {
     set({ loading: true });
     try {
