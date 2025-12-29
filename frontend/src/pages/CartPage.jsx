@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useCartStore } from "../store/useCartStore";
-import { Trash2Icon } from "lucide-react";
+import { Trash2Icon, PlusIcon, MinusIcon } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 
