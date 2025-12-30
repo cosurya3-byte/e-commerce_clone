@@ -38,7 +38,7 @@ const CartPage = () => {
     setIsProcessing(false);
 
     // 3. Redirect to Home
-    navigate("/");
+    navigate("/success");
   };
 
   const totalPrice = cart.reduce(
