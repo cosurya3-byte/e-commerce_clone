@@ -1,12 +1,14 @@
 import { PackageOpenIcon, PlusIcon, ArrowLeftIcon } from "lucide-react";
 import { useContext, useEffect } from "react";
-import { AuthContext } from "../context/AuthContext"; //
+import { AuthContext } from "../context/AuthContext";
 import { useProductStore } from "../store/useProductStore";
-import ProductCard from "../components/ProductCard"; //
+import ProductCard from "../components/ProductCard";
+import { useNavigate } from "react-router-dom";
 
 const ProfilePage = () => {
   const { user } = useContext(AuthContext); //
   const { products, fetchProducts } = useProductStore();
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchProducts(); // We'll filter these in the UI for now
