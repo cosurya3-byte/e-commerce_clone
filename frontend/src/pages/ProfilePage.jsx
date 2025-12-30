@@ -1,3 +1,4 @@
+import { PackageOpenIcon, PlusIcon } from "lucide-react";
 import { useContext, useEffect } from "react";
 import { AuthContext } from "../context/AuthContext"; //
 import { useProductStore } from "../store/useProductStore";
@@ -40,11 +41,39 @@ const ProfilePage = () => {
         My Inventory ({myProducts.length})
       </h2>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {myProducts.map((product) => (
-          <ProductCard key={product.id} product={product} />
-        ))}
-      </div>
+      <button
+        onClick={() => document.getElementById("add_product_modal").showModal()}
+        className="btn btn-primary btn-sm gap-2"
+      >
+        <PlusIcon size={18} /> Add New
+      </button>
+
+      {myProducts.length > 0 ? (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {myProducts.map((product) => (
+            <ProductCard key={product.id} product={product} />
+          ))}
+        </div>
+      ) : (
+        /* 1. Improved Empty State Graphic */
+        <div className="text-center py-20 bg-base-200/50 rounded-3xl border-2 border-dashed border-base-300">
+          <div className="flex justify-center mb-4 text-base-content/20">
+            <PackageOpenIcon size={80} />
+          </div>
+          <h3 className="text-xl font-bold mb-2">No products found</h3>
+          <p className="text-base-content/60 mb-6">
+            You haven't listed any products yet. Start selling today!
+          </p>
+          <button
+            onClick={() =>
+              document.getElementById("add_product_modal").showModal()
+            }
+            className="btn btn-primary"
+          >
+            List Your First Product
+          </button>
+        </div>
+      )}
     </div>
   );
 };
