@@ -19,11 +19,9 @@ export const getProducts = async (req, res) => {
 };
 
 export const createProduct = async (req, res) => {
-  const { name, price, image } = req.body;
+  const { name, price, image, category } = req.body;
   const userId = req.user.userId;
   // CRITICAL: Check your terminal for this output when you add a product
-  console.log("Adding product. User object from req:", req.user);
-  console.log("Extracted userId:", userId);
 
   if (!userId) {
     return res
@@ -41,7 +39,7 @@ export const createProduct = async (req, res) => {
     // Ensure there is a space-less 'sql' right before the backtick
     const newProduct = await sql`
   INSERT INTO products (name, price, image, user_id)
-  VALUES (${name}, ${price}, ${image}, ${userId})
+  VALUES (${name}, ${price}, ${image}, ${category || "General"}, ${userId})
   RETURNING *
 `;
 

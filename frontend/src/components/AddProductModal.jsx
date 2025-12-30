@@ -8,6 +8,7 @@ import { useProductStore } from "../store/useProductStore";
 
 function AddProductModal() {
   const { addProduct, formData, setFormData, loading } = useProductStore();
+  const [category, setCategory] = useState("Electronics");
 
   return (
     <dialog id="add_product_modal" className="modal">
@@ -92,6 +93,25 @@ function AddProductModal() {
                 />
               </div>
             </div>
+          </div>
+
+          <div className="form-control w-full">
+            <label className="label">
+              <span className="label-text">Category</span>
+            </label>
+            <select
+              className="select select-bordered w-full"
+              value={formData.category}
+              onChange={(e) =>
+                setFormData({ ...formData, category: e.target.value })
+              }
+            >
+              <option value="Electronics">Electronics</option>
+              <option value="Fashion">Fashion</option>
+              <option value="Home">Home</option>
+              <option value="Audio">Audio</option>
+              <option value="Other">Other</option>
+            </select>
           </div>
 
           {/* MODAL ACTIONS */}
