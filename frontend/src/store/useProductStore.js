@@ -13,6 +13,8 @@ export const useProductStore = create((set, get) => ({
   loading: false,
   error: null,
   currentProduct: null,
+  searchQuery: "",
+  selectedCategory: "All",
 
   // form state
   formData: {
@@ -23,6 +25,9 @@ export const useProductStore = create((set, get) => ({
 
   setFormData: (formData) => set({ formData }),
   resetForm: () => set({ formData: { name: "", price: "", image: "" } }),
+
+  setSearchQuery: (query) => set({ searchQuery: query }),
+  setSelectedCategory: (category) => set({ selectedCategory: category }),
 
   fetchProducts: async () => {
     set({ loading: true });
@@ -58,17 +63,18 @@ export const useProductStore = create((set, get) => ({
   },
 
   products: [],
-  searchQuery: "", // New state for the search text
-
-  // Function to update the search query
-  setSearchQuery: (query) => set({ searchQuery: query }),
 
   // Logic to filter products based on the name
   getFilteredProducts: () => {
-    const { products, searchQuery } = get();
-    return products.filter((product) =>
-      product.name.toLowerCase().includes(searchQuery.toLowerCase())
-    );
+    const { products, searchQuery, selectedCategory } = get();
+    return products.filter((product) => {
+      const matchesSearch = product.name
+        .toLowerCase()
+        .includes(searchQuery.toLowerCase());
+      const matchesCategory =
+        selectedCategory === "All" || product.category === selectedCategory;
+      return matchesSearch && matchesCategory; // Both must be true
+    });
   },
 
   fetchProducts: async () => {
@@ -132,27 +138,4 @@ export const useProductStore = create((set, get) => ({
       set({ loading: false });
     }
   },
-
-  /* searchProducts: async (search) => {
-    try {
-      const res = await API.get(`/products/search?search =${search}`);
-      // Double-check if your data is in res.data or res.data.data
-      const results = res.data.data || [];
-      set({ products: results }); // Ensure 'results' is always an array
-    } catch (error) {
-      console.error("Search error", error);
-      set({ products: [] }); // Set to empty array on error to prevent map crash
-    }
-  },
-
-  fetchProducts: async (searchTerm = "") => {
-    set({ loading: true });
-    try {
-      // This sends: https://your-site.com/api/products?search=P
-      const res = await API.get(`/products?search=${search}`);
-      set({ products: res.data.data, loading: false });
-    } catch (error) {
-      set({ error: "Error fetching products", loading: false });
-    }
-  }, */
 }));

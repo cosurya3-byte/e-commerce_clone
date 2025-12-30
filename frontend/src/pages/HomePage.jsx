@@ -7,9 +7,16 @@ import AddProductModal from "../components/AddProductModal";
 function HomePage() {
   const { products, loading, error, fetchProducts } = useProductStore();
 
-  const { getFilteredProducts } = useProductStore();
-
-  // 1. Use the filtering function instead of the raw products array
+  const { selectedCategory, setSelectedCategory, getFilteredProducts } =
+    useProductStore();
+  const categories = [
+    "All",
+    "Electronics",
+    "Fashion",
+    "Home",
+    "Audio",
+    "Other",
+  ];
   const filteredProducts = getFilteredProducts();
 
   useEffect(() => {
@@ -28,6 +35,22 @@ function HomePage() {
           <PlusCircleIcon className="size-5 mr-2" />
           Add Product
         </button>
+
+        <div className="tabs tabs-boxed justify-center mb-8 bg-base-200 p-2">
+          {categories.map((cat) => (
+            <button
+              key={cat}
+              className={`tab tab-lg ${
+                selectedCategory === cat
+                  ? "tab-active !bg-primary !text-primary-content"
+                  : ""
+              }`}
+              onClick={() => setSelectedCategory(cat)}
+            >
+              {cat}
+            </button>
+          ))}
+        </div>
 
         <button className="btn btn-ghost btn-circle" onClick={fetchProducts}>
           <RefreshCwIcon className="size-5" />
