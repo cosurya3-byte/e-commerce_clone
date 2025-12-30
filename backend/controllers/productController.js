@@ -38,8 +38,8 @@ export const createProduct = async (req, res) => {
   try {
     // Ensure there is a space-less 'sql' right before the backtick
     const newProduct = await sql`
-  INSERT INTO products (name, price, image, user_id)
-  VALUES (${name}, ${price}, ${image}, ${category || "General"}, ${userId})
+  INSERT INTO products (name, price, image, category, user_id)
+  VALUES (${name}, ${price}, ${image}, ${category || "Other"}, ${userId})
   RETURNING *
 `;
 
