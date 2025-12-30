@@ -68,7 +68,7 @@ function HomePage() {
         </div>
       )}
 
-      {loading ? (
+      {/* {loading ? (
         <div className="flex justify-center items-center h-64">
           <div className="loading loading-spinner loading-lg" />
         </div>
@@ -87,7 +87,7 @@ function HomePage() {
                 </div>
               )}
         </div>
-      )}
+      )} */}
     </main>
   );
 }
