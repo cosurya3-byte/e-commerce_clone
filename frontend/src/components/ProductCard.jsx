@@ -39,6 +39,11 @@ function ProductCard({ product }) {
           alt={product.name}
           className="absolute top-0 left-0 w-full h-full object-cover"
         />
+        <div className="absolute top-2 right-2">
+          <span className="badge badge-primary font-semibold shadow-md">
+            {product.category || "General"}
+          </span>
+        </div>
       </figure>
 
       <div className="card-body">
