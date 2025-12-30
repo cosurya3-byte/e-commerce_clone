@@ -11,6 +11,8 @@ import { useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { useState } from "react";
 import { useCartStore } from "../store/useCartStore";
+import { HeartIcon } from "lucide-react";
+import { useWishlistStore } from "../store/useWishlistStore";
 
 function Navbar() {
   // At the top of your Navbar function
@@ -26,6 +28,8 @@ function Navbar() {
   const { products } = useProductStore();
   const { user, logout } = useContext(AuthContext);
   const [searchTerm, setSearchTerm] = useState("");
+
+  const { wishlist } = useWishlistStore();
 
   const location = useLocation(); // Get the current path
 
@@ -111,6 +115,19 @@ function Navbar() {
                   Sign Up
                 </Link>
               </div>
+            )}
+            {isHomePage && (
+              <Link
+                to="/wishlist"
+                className="btn btn-ghost btn-circle relative"
+              >
+                <HeartIcon className="size-5" />
+                {wishlist.length > 0 && (
+                  <span className="badge badge-sm badge-secondary absolute -top-1 -right-1">
+                    {wishlist.length}
+                  </span>
+                )}
+              </Link>
             )}
 
             {isHomePage && (

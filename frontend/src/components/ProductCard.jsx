@@ -1,3 +1,5 @@
+import { HeartIcon } from "lucide-react";
+import { useWishlistStore } from "../store/useWishlistStore";
 import { EditIcon, Trash2Icon } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useProductStore } from "../store/useProductStore";
@@ -13,6 +15,9 @@ function ProductCard({ product }) {
   const { user } = useContext(AuthContext);
 
   const { addToCart } = useCartStore();
+
+  const { wishlist, toggleWishlist } = useWishlistStore();
+  const isWishlisted = wishlist.some((item) => item.id === product.id);
 
   const handleAddToCart = () => {
     addToCart(product);
@@ -44,6 +49,20 @@ function ProductCard({ product }) {
             {product.category || "General"}
           </span>
         </div>
+
+        <button
+          onClick={(e) => {
+            e.preventDefault();
+            toggleWishlist(product);
+          }}
+          className={`absolute top-2 left-2 p-2 rounded-full transition-all ${
+            isWishlisted
+              ? "bg-red-500 text-white"
+              : "bg-base-100/80 text-base-content hover:scale-110"
+          }`}
+        >
+          <HeartIcon size={18} fill={isWishlisted ? "currentColor" : "none"} />
+        </button>
       </figure>
 
       <div className="card-body">
