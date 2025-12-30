@@ -5,6 +5,7 @@ import {
   PlusCircleIcon,
 } from "lucide-react";
 import { useProductStore } from "../store/useProductStore";
+import { useState } from "react";
 
 function AddProductModal() {
   const { addProduct, formData, setFormData, loading } = useProductStore();
