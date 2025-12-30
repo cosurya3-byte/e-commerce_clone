@@ -121,17 +121,16 @@ export const deleteProduct = async (req, res) => {
   }
 };
 
-/* export const searchProducts = async (req, res) => {
-  const { query } = req.query; // This gets the text from the URL (e.g., ?query=phone)
+export const getUserProducts = async (req, res) => {
   try {
-    // This SQL query looks for matches in the name or category
+    const userId = req.user.userId; // Get ID from the auth middleware
     const products = await sql`
       SELECT * FROM products 
-      WHERE name ILIKE ${"%" + query + "%"} 
-      OR category ILIKE ${"%" + query + "%"}
+      WHERE user_id = ${userId} 
+      ORDER BY created_at DESC
     `;
     res.status(200).json({ success: true, data: products });
   } catch (error) {
-    res.status(500).json({ success: false, message: "Search failed" });
+    res.status(500).json({ success: false, message: "Server Error" });
   }
-}; */
+};

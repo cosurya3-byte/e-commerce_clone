@@ -87,9 +87,14 @@ function Navbar() {
 
             {user ? (
               <div className="flex items-center gap-4">
-                <span className="text-sm font-medium hidden md:block">
-                  Hi, {user.name}
-                </span>
+                <Link
+                  to="/profile"
+                  className="hover:text-primary transition-colors cursor-pointer"
+                >
+                  <span className="text-sm font-medium hidden md:block">
+                    Hi, {user.name}
+                  </span>
+                </Link>
                 <button
                   onClick={logout}
                   className="btn btn-ghost btn-sm text-error hover:bg-error/10"
