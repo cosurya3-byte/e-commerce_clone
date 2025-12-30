@@ -10,6 +10,7 @@ import ProfilePage from "./pages/ProfilePage";
 import LoginPage from "./pages/LoginPage";
 import CartPage from "./pages/CartPage";
 import SuccessPage from "./pages/SuccessPage";
+import WishlistPage from "./pages/WishlistPage";
 
 function App() {
   const { theme } = useThemeStore();
@@ -67,6 +68,7 @@ function App() {
             </ProtectedRoute>
           }
         />
+        <Route path="/wishlist" element={<WishlistPage />} />
       </Routes>
 
       <Toaster />
