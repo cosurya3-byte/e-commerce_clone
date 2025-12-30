@@ -1,4 +1,4 @@
-import { PackageOpenIcon, PlusIcon } from "lucide-react";
+import { PackageOpenIcon, PlusIcon, ArrowLeftIcon } from "lucide-react";
 import { useContext, useEffect } from "react";
 import { AuthContext } from "../context/AuthContext"; //
 import { useProductStore } from "../store/useProductStore";
