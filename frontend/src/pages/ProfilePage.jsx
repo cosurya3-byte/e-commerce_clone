@@ -18,6 +18,10 @@ const ProfilePage = () => {
 
   return (
     <div className="max-w-6xl mx-auto p-6">
+      <button onClick={() => navigate("/")} className="btn btn-ghost mb-8">
+        <ArrowLeftIcon className="size-4 mr-2" />
+        Back to Products
+      </button>
       <div className="bg-base-200 p-8 rounded-2xl mb-8 flex items-center gap-6">
         <div className="avatar placeholder">
           <div className="bg-primary text-primary-content rounded-full w-24">
