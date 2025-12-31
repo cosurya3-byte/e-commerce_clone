@@ -11,7 +11,6 @@ import path from "path";
 import productRoutes from "./routes/productRoutes.js";
 import { sql } from "./config/db.js";
 import { aj } from "./lib/arcjet.js";
-import axios from "axios";
 
 const app = express();
 const PORT = process.env.PORT || 3000;
