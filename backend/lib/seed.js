@@ -1,62 +1,48 @@
-import { sql } from "../config/db.js"; // Adjust the path to your db connection file
+import { sql } from "../config/db.js";
 
-const defaultProducts = [
-  {
-    name: "iPhone 15 Pro",
-    price: 999,
-    category: "Electronics",
-    image: "https://images.unsplash.com/photo-1696446701796-da61225697cc?w=800",
-  },
-  {
-    name: "Sony WH-1000XM5",
-    price: 349,
-    category: "Audio",
-    image: "https://images.unsplash.com/photo-1618366712010-f4ae9c647dcb?w=800",
-  },
-  {
-    name: "Mechanical Keyboard",
-    price: 120,
-    category: "Electronics",
-    image: "https://images.unsplash.com/photo-1511467687858-23d96c32e4ae?w=800",
-  },
-  {
-    name: "Cotton Hoodie",
-    price: 45,
-    category: "Fashion",
-    image: "https://images.unsplash.com/photo-1556821840-3a63f95609a7?w=800",
-  },
-  {
-    name: "Smart Watch",
-    price: 199,
-    category: "Electronics",
-    image: "https://images.unsplash.com/photo-1544117518-3b21646e3a06?w=800",
-  },
-  {
-    name: "Desk Lamp",
-    price: 30,
-    category: "Home",
-    image: "https://images.unsplash.com/photo-1534073828943-f801091bb18c?w=800",
-  },
+const categories = ["Electronics", "Fashion", "Home", "Audio", "Other"];
+const images = [
+  "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=800", // Headphones
+  "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=800", // Watch
+  "https://images.unsplash.com/photo-1526170315870-efcec18c182f?w=800", // Camera
+  "https://images.unsplash.com/photo-1583394838336-acd977736f90?w=800", // Audio gear
+  "https://images.unsplash.com/photo-1491553895911-0055eca6402d?w=800", // Shoes
 ];
 
 async function seedDatabase() {
   try {
-    console.log("Seeding database...");
+    console.log("🚀 Starting bulk seed of 50 products...");
 
-    // Replace '1' with a valid userId from your users table
+    // ⚠️ IMPORTANT: Verify your database has a user with ID 1
     const userId = 3;
 
-    for (const product of defaultProducts) {
+    const productsToInsert = [];
+
+    for (let i = 1; i <= 50; i++) {
+      const category =
+        categories[Math.floor(Math.random() * categories.length)];
+      const image = images[Math.floor(Math.random() * images.length)];
+
+      productsToInsert.push({
+        name: `${category} Item #${i}`,
+        price: Math.floor(Math.random() * 900) + 10, // Price between $10 and $910
+        image: image,
+        category: category,
+        user_id: userId,
+      });
+    }
+
+    for (const p of productsToInsert) {
       await sql`
         INSERT INTO products (name, price, image, category, user_id)
-        VALUES (${product.name}, ${product.price}, ${product.image}, ${product.category}, ${userId})
+        VALUES (${p.name}, ${p.price}, ${p.image}, ${p.category}, ${p.user_id})
       `;
     }
 
-    console.log("Database seeded successfully!");
+    console.log("✅ Successfully added 50 products to the database!");
     process.exit(0);
   } catch (error) {
-    console.error("Error seeding database:", error);
+    console.error("❌ Seed failed:", error);
     process.exit(1);
   }
 }
