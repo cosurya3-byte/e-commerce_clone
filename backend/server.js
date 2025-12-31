@@ -116,10 +116,14 @@ initDB().then(() => {
 
 const RELOAD_URL = "https://e-commerce-clone-vj0j.onrender.com/api/products";
 
-// Ping the server every 14 minutes (840,000 ms)
-setInterval(() => {
-  axios
-    .get(RELOAD_URL)
-    .then(() => console.log("Self-ping successful: Keeping server awake"))
-    .catch((err) => console.error("Self-ping failed:", err.message));
-}, 840000);
+// 2. Use native fetch to ping the server
+setInterval(async () => {
+  try {
+    const response = await fetch(RELOAD_URL);
+    if (response.ok) {
+      console.log("Self-ping successful: Keeping server awake");
+    }
+  } catch (err) {
+    console.error("Self-ping failed:", err.message);
+  }
+}, 840000); // 14 minutes
