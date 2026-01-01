@@ -8,6 +8,7 @@ import { AuthContext } from "../context/AuthContext";
 import { useCartStore } from "../store/useCartStore";
 import { ShoppingCartIcon } from "lucide-react";
 import toast from "react-hot-toast";
+import { StarIcon } from "lucide-react";
 
 function ProductCard({ product }) {
   const { deleteProduct } = useProductStore();
@@ -18,6 +19,8 @@ function ProductCard({ product }) {
 
   const { wishlist, toggleWishlist } = useWishlistStore();
   const isWishlisted = wishlist.some((item) => item.id === product.id);
+  const mockRating = (Math.random() * (5 - 3.8) + 3.8).toFixed(1);
+  const mockReviews = Math.floor(Math.random() * 100) + 10;
 
   const handleAddToCart = () => {
     addToCart(product);
@@ -64,6 +67,21 @@ function ProductCard({ product }) {
           <HeartIcon size={18} fill={isWishlisted ? "currentColor" : "none"} />
         </button>
       </figure>
+
+      {/* ⭐ NEW: Star Rating Display */}
+      <div className="flex items-center gap-1 mb-2">
+        <div className="flex text-warning">
+          {[...Array(5)].map((_, i) => (
+            <StarIcon
+              key={i}
+              size={14}
+              fill={i < Math.floor(mockRating) ? "currentColor" : "none"}
+            />
+          ))}
+        </div>
+        <span className="text-xs opacity-70">({mockRating})</span>
+        <span className="text-xs opacity-50 ml-1">{mockReviews} reviews</span>
+      </div>
 
       <div className="card-body">
         {/* PRODUCT INFO */}
