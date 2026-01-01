@@ -69,7 +69,7 @@ function ProductCard({ product }) {
       </figure>
 
       {/* ⭐ NEW: Star Rating Display */}
-      <div className="flex items-center gap-1 mb-2">
+      <div className="flex items-center flex-wrap gap-1 mb-2">
         <div className="flex text-warning">
           {[...Array(5)].map((_, i) => (
             <StarIcon
@@ -79,7 +79,9 @@ function ProductCard({ product }) {
             />
           ))}
         </div>
-        <span className="text-xs opacity-70">({mockRating})</span>
+        <span className="text-[10px] lg:text-xs opacity-70">
+          ({mockRating})
+        </span>
         <span className="text-xs opacity-50 ml-1">{mockReviews} reviews</span>
       </div>
 
