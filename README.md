@@ -17,8 +17,3 @@ A high-performance e-commerce platform built with the PERN stack. This project f
 * **Backend**: Node.js, Express.
 * **Database**: PostgreSQL (via Neon Console).
 * **Deployment**: Render.
-
-## 💻 Setup
-1. Clone the repo: `git clone https://github.com/cosurya3-byte/e-commerce_clone.git`.
-2. Install dependencies: `npm install`.
-3. Start the app: `npm run dev`.
